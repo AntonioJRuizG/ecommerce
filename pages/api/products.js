@@ -17,4 +17,12 @@ export default async function handler(req, res) {
     })    
     res.json(productDoc);
   }
+
+  if (method === 'PUT') {
+    const { id, ...props } = req.body;
+    const productDoc = await Product.findByIdAndUpdate({_id: id},
+      {...props}
+    );
+    res.json(productDoc);
+  }
 }

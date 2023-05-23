@@ -15,12 +15,11 @@ export default function ProductForm({id, ...props}) {
     const data = { title, description, price };
 
     if(id){
-      await axios.put('/api/products', {id, ...data});
+      await axios.put('/api/products', {...data, id});
     } else{
       await axios.post('/api/products', data);
-      setGoBack(true);
     }
-    
+    setGoBack(true);
   };
 
   if (goBack) router.push('/products');
