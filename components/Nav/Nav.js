@@ -1,9 +1,11 @@
 import Link from "next/link";
 
 export default function Nav () {
+  const inactiveLink = 'flex gap-2 p-1';
+  const activeLink= inactiveLink + ' bg-white text-blue-900 rounded-l-lg'
   return (
-    <aside className='text-white p-4 flex flex-col gap-5'>
-      <Link href={'/'} className='flex gap-2'>
+    <aside className='text-white p-4 pr-0 flex flex-col gap-5'>
+      <Link href={'/'} className='flex gap-2 mr-2'>
         <svg
           xmlns='http://www.w3.org/2000/svg'
           viewBox='0 0 24 24'
@@ -20,7 +22,7 @@ export default function Nav () {
       </Link>
 
       <nav className='flex flex-col gap-2'>
-        <Link href={'/'} className='flex gap-2'>
+        <Link href={'/'} className={activeLink}>
           <svg
             xmlns='http://www.w3.org/2000/svg'
             viewBox='0 0 24 24'
@@ -32,7 +34,7 @@ export default function Nav () {
           </svg>
           Dashboard
         </Link>
-        <Link href={'/'} className='flex gap-2'>
+        <Link href={'/products'} className={inactiveLink}>
           <svg
             xmlns='http://www.w3.org/2000/svg'
             viewBox='0 0 24 24'
@@ -47,7 +49,7 @@ export default function Nav () {
           </svg>
           Products
         </Link>
-        <Link href={'/'} className='flex gap-2'>
+        <Link href={'/orders'} className={inactiveLink}>
           <svg
             xmlns='http://www.w3.org/2000/svg'
             viewBox='0 0 24 24'
@@ -62,7 +64,7 @@ export default function Nav () {
           </svg>
           Orders
         </Link>
-        <Link href={'/'} className='flex gap-2'>
+        <Link href={'/settings'} className={inactiveLink}>
           <svg
             xmlns='http://www.w3.org/2000/svg'
             viewBox='0 0 24 24'
