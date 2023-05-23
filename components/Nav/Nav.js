@@ -42,7 +42,7 @@ export default function Nav () {
         </Link>
         <Link
           href={'/products'}
-          className={router.pathname == '/products' ? activeLink : inactiveLink}
+          className={router.pathname.includes('/products') ? activeLink : inactiveLink}
         >
           <svg
             xmlns='http://www.w3.org/2000/svg'
