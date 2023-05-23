@@ -7,7 +7,7 @@ export default async function handler(req, res) {
 
   if (method === 'GET') {
     req.query?.id ?
-      res.json(await Product.findById({id: req.query.id})) : res.json(await Product.find())
+      res.json(await Product.findById(req.query.id)) : res.json(await Product.find())
   }
 
   if(method === 'POST') {
