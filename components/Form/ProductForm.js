@@ -13,8 +13,8 @@ export default function ProductForm({id, ...props}) {
 	const [description, setDescription] = useState(props.description || '');
 	const [price, setPrice] = useState(props.price || '');
 	const [image, setImage] = useState(props.image || []);
-
 	const [goBack, setGoBack] = useState(false);
+	const [isUploading, setIsUploagin] = useState(false);
 
 	const createProduct = async ev => {
 		ev.preventDefault();
@@ -24,6 +24,7 @@ export default function ProductForm({id, ...props}) {
 
 		if (file) {
 			await uploadImageToFirebase(data, file);
+			setIsUploagin(true);
 		}
 
 		data = {title, description, price, image};
@@ -35,7 +36,8 @@ export default function ProductForm({id, ...props}) {
 			await axios.post('/api/products', data);
 		}
 
-		setGoBack(true);
+		setIsUploagin(false);
+		// SetGoBack(true);
 	};
 
 	if (goBack) {
@@ -52,6 +54,7 @@ export default function ProductForm({id, ...props}) {
 				onChange={ev => setTitle(ev.target.value)}
 			></input>
 			<label>Images</label>
+
 			<div className='flex gap-1 flex-row flex-wrap'>
 				<label className='w-24 h-24 border flex items-center justify-center text-sm gap-1 rounded-md bg-blue-200 cursor-pointer'>
           Upload{' '}
@@ -72,6 +75,9 @@ export default function ProductForm({id, ...props}) {
 					<input type='file' className='hidden'></input>
 					{/* onChange={uploadImage} */}
 				</label>
+				{isUploading ? <label className='w-24 h-24 border flex items-center justify-center text-sm gap-1 rounded-md bg-blue-200'>
+					<div className='activityIndicator'></div>
+				</label> : null}
 
 				{image?.length > 0 ? (
 					image.map(item => (
