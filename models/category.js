@@ -1,15 +1,8 @@
-const {Schema, model, models} = require('mongoose');
+const {Schema, model, models, default: mongoose} = require('mongoose');
 
 const categorySchema = new Schema({
 	name: {type: String, required: true},
-});
-
-categorySchema.set('toJSON', {
-	transform(_document, returnedObject) {
-		returnedObject.id = returnedObject._id;
-		delete returnedObject.__v;
-		delete returnedObject._id;
-	},
+	parent: {type: mongoose.Types.ObjectId, ref: 'Category'},
 });
 
 export const Category = models?.Category || model('Category', categorySchema);
