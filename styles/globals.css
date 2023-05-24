@@ -21,6 +21,10 @@ label {
   @apply bg-blue-900 text-white px-4 py-1 rounded-md
 }
 
+.btn-red {
+  @apply bg-red-700 text-white px-4 py-1 rounded-md
+}
+
 table.basic {
   @apply w-full
 }
@@ -35,4 +39,8 @@ table.basic tr td {
 
 table.basic a {
   @apply bg-blue-900 text-white text-sm px-2 py-1 rounded-md inline-flex gap-1 w-20 justify-center mx-1
+}
+
+h1 {
+  @apply text-blue-900 mb-2 text-xl
 }

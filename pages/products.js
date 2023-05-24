@@ -44,7 +44,7 @@ export default function Products(){
                       </svg>{' '}
                       Edit
                     </Link>
-                    <Link href={'/products' + product.id}>
+                    <Link href={'/products/delete/' + product.id}>
                       <svg
                         xmlns='http://www.w3.org/2000/svg'
                         viewBox='0 0 24 24'
