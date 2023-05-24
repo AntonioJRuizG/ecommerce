@@ -1,3 +1,65 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+input,
+textarea {
+  @apply border border-gray-300 rounded-md p-1 w-full;
+  @apply mb-2
+}
+
+input:focus,
+textarea:focus {
+  @apply border-blue-900
+}
+
+label {
+  @apply text-blue-900
+}
+
+.btn-primary {
+  @apply bg-blue-900 text-white px-4 py-1 rounded-md
+}
+
+.btn-red {
+  @apply bg-red-700 text-white px-4 py-1 rounded-md
+}
+
+table.basic {
+  @apply w-full
+}
+
+table.basic thead tr td {
+  @apply bg-blue-100
+}
+
+table.basic tr td {
+  @apply border border-blue-200 p-1
+}
+
+table.basic a {
+  @apply bg-blue-900 text-white text-sm px-2 py-1 rounded-md inline-flex gap-1 w-20 justify-center mx-1
+}
+
+h1 {
+  @apply text-blue-900 mb-2 text-xl
+}
+
+.activityIndicator {
+  border: 5px solid #f3f3f3;
+  border-top: 5px solid #1700e4;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
