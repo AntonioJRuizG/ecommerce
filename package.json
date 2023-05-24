@@ -15,7 +15,6 @@
     "firebase": "^9.22.0",
     "mongodb": "^5.5.0",
     "mongoose": "^7.2.0",
-    "multiparty": "^4.2.3",
     "next": "13.4.3",
     "next-auth": "^4.22.1",
     "react": "18.2.0",
