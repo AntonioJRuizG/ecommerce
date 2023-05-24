@@ -7,6 +7,9 @@ import {useRouter} from 'next/router';
 import React from 'react';
 import {uploadImageToFirebase} from '../../pages/api/firebase/firebaseConfig';
 
+import SortableList, {SortableItem} from 'react-easy-sort';
+import arrayMove from 'array-move';
+
 export default function ProductForm({id, ...props}) {
 	const router = useRouter();
 	const [title, setTitle] = useState(props.title || '');
@@ -15,6 +18,10 @@ export default function ProductForm({id, ...props}) {
 	const [image, setImage] = useState(props.image || []);
 	const [goBack, setGoBack] = useState(false);
 	const [isUploading, setIsUploagin] = useState(false);
+
+	const onSortEnd = (oldIndex, newIndex) => {
+		setImage(array => arrayMove(array, oldIndex, newIndex));
+	};
 
 	const createProduct = async ev => {
 		ev.preventDefault();
@@ -75,24 +82,32 @@ export default function ProductForm({id, ...props}) {
 					<input type='file' className='hidden'></input>
 					{/* onChange={uploadImage} */}
 				</label>
-				{isUploading ? <label className='w-24 h-24 border flex items-center justify-center text-sm gap-1 rounded-md bg-blue-200'>
-					<div className='activityIndicator'></div>
-				</label> : null}
+				{isUploading ? (
+					<label className='w-24 h-24 border flex items-center justify-center text-sm gap-1 rounded-md bg-blue-200'>
+						<div className='activityIndicator'></div>
+					</label>
+				) : null}
 
-				{image?.length > 0 ? (
-					image.map(item => (
-						<img
-							key={item}
-							className='w-24 min h-24 min-w-24 object-cover min-h-24 border rounded-md bg-blue-200'
-							src={item}
-							alt={'product image'}
-							width={60}
-							height={60}
-						></img>
-					))
-				) : (
-					<div>No images in this product.</div>
-				)}
+				<SortableList
+					onSortEnd={onSortEnd}
+					className='list flex gap-1 flex-row flex-wrap'
+					draggedItemClassName='dragged'
+				>
+					{image?.length > 0 && (
+						image.map(item => (
+							<SortableItem key={item}>
+								<img
+									className='w-24 min h-24 min-w-24 object-cover min-h-24 border rounded-md bg-blue-200'
+									src={item}
+									alt={'product image'}
+									width={60}
+									height={60}
+								></img>
+							</SortableItem>
+						),
+						)
+					)}
+				</SortableList>
 			</div>
 			<label>Description</label>
 			<textarea
