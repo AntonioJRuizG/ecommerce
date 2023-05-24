@@ -1,5 +1,5 @@
-import Layout from '@/components/Layout/Layout';
-import ProductForm from '@/components/Form/ProductForm';
+import Layout from '../../components/Layout/Layout';
+import ProductForm from '../../components/Form/ProductForm';
 import React from 'react';
 
 export default function New() {

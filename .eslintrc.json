@@ -11,5 +11,8 @@
     "sourceType": "module"
   },
   "plugins": ["react"],
-  "rules": { "react/prop-types": 0 }
+  "rules": {
+    "react/prop-types": 0,
+    "indent": [2, "tab"]
+  }
 }
