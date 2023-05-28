@@ -1,4 +1,5 @@
 import Layout from '@/components/Layout/Layout';
+import Modal from '@/components/Modal/Modal';
 import axios from 'axios';
 import React, {useEffect, useState} from 'react';
 
@@ -6,24 +7,55 @@ export default function Categories() {
 	const [name, setName] = useState('');
 	const [parentCategory, setParentCategory] = useState('');
 	const [categoriesList, setCategoriesList] = useState([]);
+	const [editedCategory, setEditedCategory] = useState(null);
+	const [deletedCategory, setDeletedCategory] = useState(null);
+
 	const saveCategory = async ev => {
 		ev.preventDefault();
-		await axios.post('/api/categories', {name, parentCategory});
+		const data = {name, parentCategory};
+
+		if (editedCategory) {
+			data.id = editedCategory._id;
+			await axios.put('/api/categories', data);
+			setEditedCategory(null);
+		}
+
+		if (!editedCategory) {
+			await axios.post('/api/categories', data);
+		}
+
 		setName('');
+		setParentCategory('');
 	};
 
 	useEffect(() => {
-		axios
-			.get('/api/categories')
-			.then(response => {
-				setCategoriesList(response.data);
-			});
-	}, [name]);
+		axios.get('/api/categories').then(response => {
+			setCategoriesList(response.data);
+		});
+	}, [name, deletedCategory]);
+
+	const editCategory = category => {
+		setEditedCategory(category);
+		setName(category.name);
+		console.log(category.parent?._id);
+		setParentCategory(category.parent?._id);
+	};
+
+	const deleteCategory = async category => {
+		const {_id} = category;
+		await axios.delete('/api/categories?id=' + _id);
+		setDeletedCategory(null);
+	};
 
 	return (
 		<Layout>
 			<h1>Categories</h1>
-			<label>New category name</label>
+			<label>
+				{editedCategory
+					? `Edit category ${editedCategory.name}`
+					: 'Add new category'}
+			</label>
+
 			<form onSubmit={saveCategory} className='flex gap-1'>
 				<input
 					className='mb-0'
@@ -40,7 +72,7 @@ export default function Categories() {
 					<option value=''>No parent category</option>
 					{categoriesList.length > 0
 						? categoriesList.map(category => (
-							<option key={category.id} value={category.id}>
+							<option key={category._id} value={category._id}>
 								{category.name}
 							</option>
 						))
@@ -65,8 +97,20 @@ export default function Categories() {
 								<td>{category.name}</td>
 								<td>{category.parent?.name}</td>
 								<td className='flex flex-row gap-1'>
-									<button className='btn-primary'>Edit</button>
-									<button className='btn-primary'>Delete</button>
+									<button
+										className='btn-primary'
+										onClick={() => {
+											editCategory(category);
+										}}
+									>
+                      Edit
+									</button>
+									<Modal
+										category={category}
+										setDeletedCategory={setDeletedCategory}
+										deleteCategory={deleteCategory}
+										deletedCategory={deletedCategory}
+									></Modal>
 								</td>
 							</tr>
 						))
@@ -76,3 +120,4 @@ export default function Categories() {
 		</Layout>
 	);
 }
+
