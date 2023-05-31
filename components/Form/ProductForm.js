@@ -4,7 +4,7 @@
 import {useState} from 'react';
 import axios from 'axios';
 import {useRouter} from 'next/router';
-import React from 'react';
+import React, {useEffect} from 'react';
 import {uploadImageToFirebase} from '../../pages/api/firebase/firebaseConfig';
 
 import SortableList, {SortableItem} from 'react-easy-sort';
@@ -18,6 +18,8 @@ export default function ProductForm({id, ...props}) {
 	const [image, setImage] = useState(props.image || []);
 	const [goBack, setGoBack] = useState(false);
 	const [isUploading, setIsUploagin] = useState(false);
+	const [categoriesList, setCategoriesList] = useState([]);
+	const [category, setCategory] = useState(props.category || '');
 
 	const onSortEnd = (oldIndex, newIndex) => {
 		setImage(array => arrayMove(array, oldIndex, newIndex));
@@ -27,14 +29,14 @@ export default function ProductForm({id, ...props}) {
 		ev.preventDefault();
 		const formData = ev.currentTarget;
 		const file = formData.elements[1].files?.item(0);
-		let data = {title, description, price, image};
+		let data = {title, description, price, image, category};
 
 		if (file) {
 			await uploadImageToFirebase(data, file);
 			setIsUploagin(true);
 		}
 
-		data = {title, description, price, image};
+		data = {title, description, price, image, category};
 		console.log(data);
 
 		if (id) {
@@ -51,6 +53,12 @@ export default function ProductForm({id, ...props}) {
 		router.push('/products');
 	}
 
+	useEffect(() => {
+		axios.get('/api/categories').then(response => {
+			setCategoriesList(response.data);
+		});
+	}, []);
+
 	return (
 		<form onSubmit={createProduct}>
 			<label>Product name</label>
@@ -60,6 +68,16 @@ export default function ProductForm({id, ...props}) {
 				value={title}
 				onChange={ev => setTitle(ev.target.value)}
 			></input>
+			<label>Category</label>
+			<select value={category} onChange={ev => setCategory(ev.target.value)}>
+				<option value=''>Uncategorized</option>
+				{categoriesList.length > 0
+					? categoriesList.map(categoryItem => (
+						<option key={categoryItem._id}>{categoryItem.name}</option>
+					))
+					: null}
+			</select>
+
 			<label>Images</label>
 
 			<div className='flex gap-1 flex-row flex-wrap'>
@@ -93,8 +111,8 @@ export default function ProductForm({id, ...props}) {
 					className='list flex gap-1 flex-row flex-wrap'
 					draggedItemClassName='dragged'
 				>
-					{image?.length > 0 && (
-						image.map(item => (
+					{image?.length > 0
+						? image.map(item => (
 							<SortableItem key={item}>
 								<img
 									className='w-24 min h-24 min-w-24 object-cover min-h-24 border rounded-md bg-blue-200'
@@ -104,9 +122,8 @@ export default function ProductForm({id, ...props}) {
 									height={60}
 								></img>
 							</SortableItem>
-						),
-						)
-					)}
+						))
+						: null}
 				</SortableList>
 			</div>
 			<label>Description</label>
