@@ -148,7 +148,10 @@ export default function Categories() {
 					</select>
 				</div>
 				{invalidOption ? (
-					<div className='text-red-500 text-sm'>Category cannot be self parent category or child-parent relation already exists. Change parent category.</div>
+					<div className='text-red-500 text-sm'>
+            Category cannot be self parent category or child-parent relation
+            already exists. Change parent category.
+					</div>
 				) : null}
 				<div className='mb-2'>
 					<label className='block'>Properties</label>
@@ -161,32 +164,41 @@ export default function Categories() {
 					</button>
 					{properties.length > 0
 						? properties.map((property, index) => (
-							<div className='flex gap-1' key={index}>
-								<input
-									type='text'
-									placeholder='property name (example: color'
-									value={property.name}
-									onChange={ev =>
-										handlePropertyNameChange(index, property, ev.target.value)
-
-									}
-									required
-								></input>
-								<input
-									type='text'
-									placeholder='values, comma separated'
-									value={property.values}
-									onChange={ev =>
-										handlePropertyValuesChange(
-											index,
-											property,
-											ev.target.value,
-										)
-									}
-									required
-								></input>
+							<div className='flex gap-1 items-center' key={index}>
+								<div className='flex'>
+									<input
+										className='h-7 text-sm mb-0'
+										type='text'
+										placeholder='property name (example: color'
+										value={property.name}
+										onChange={ev =>
+											handlePropertyNameChange(
+												index,
+												property,
+												ev.target.value,
+											)
+										}
+										required
+									></input>
+								</div>
+								<div className='flex'>
+									<input
+										className='h-7 text-sm mb-0'
+										type='text'
+										placeholder='values, comma separated'
+										value={property.values}
+										onChange={ev =>
+											handlePropertyValuesChange(
+												index,
+												property,
+												ev.target.value,
+											)
+										}
+										required
+									></input>
+								</div>
 								<button
-									className='btn-default text-sm my-2'
+									className='btn-default text-sm h-7'
 									type='button'
 									onClick={() => removeProperty(index)}
 								>

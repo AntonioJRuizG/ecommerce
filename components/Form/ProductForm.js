@@ -110,29 +110,30 @@ export default function ProductForm({id, ...props}) {
 					))
 					: null}
 			</select>
-
-			{propertiesToFill.length > 0
-				? propertiesToFill.map(p => (
-					<div key={p.name} className=''>
-						<label>{p.name[0].toUpperCase() + p.name.substring(1)}</label>
-						<div>
-							<select
-								value={productProperties[p.name]}
-								onChange={ev => setProductProps(p.name, ev.target.value)}
-							>
-								<option value=''>
-                    Property value
-								</option>
-								{p.values.map(value => (
-									<option key={value} value={value}>
-										{value}
-									</option>
-								))}
-							</select>
+			<div className='pt-2'>
+				{propertiesToFill.length > 0
+					? propertiesToFill.map(p => (
+						<div key={p.name} className='flex flex-row items-baseline gap-1'>
+							<div className='flex'>
+								<label>{p.name[0].toUpperCase() + p.name.substring(1)}</label>
+							</div>
+							<div className='flex'>
+								<select
+									value={productProperties[p.name]}
+									onChange={ev => setProductProps(p.name, ev.target.value)}
+								>
+									<option value=''>Property value</option>
+									{p.values.map(value => (
+										<option key={value} value={value}>
+											{value}
+										</option>
+									))}
+								</select>
+							</div>
 						</div>
-					</div>
-				))
-				: null}
+					))
+					: null}
+			</div>
 
 			<label>Images</label>
 			<div className='flex gap-1 flex-row flex-wrap'>
