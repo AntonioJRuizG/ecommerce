@@ -20,6 +20,9 @@ export default function ProductForm({id, ...props}) {
 	const [isUploading, setIsUploagin] = useState(false);
 	const [categoriesList, setCategoriesList] = useState([]);
 	const [category, setCategory] = useState(props.category || '');
+	const [productProperties, setProductProperties] = useState(
+		props.properties || {},
+	);
 
 	const onSortEnd = (oldIndex, newIndex) => {
 		setImage(array => arrayMove(array, oldIndex, newIndex));
@@ -29,15 +32,19 @@ export default function ProductForm({id, ...props}) {
 		ev.preventDefault();
 		const formData = ev.currentTarget;
 		const file = formData.elements[1].files?.item(0);
-		let data = {title, description, price, image, category};
+		const data = {
+			title,
+			description,
+			price,
+			image,
+			category,
+			properties: productProperties,
+		};
 
 		if (file) {
 			await uploadImageToFirebase(data, file);
 			setIsUploagin(true);
 		}
-
-		data = {title, description, price, image, category};
-		console.log(data);
 
 		if (id) {
 			await axios.put('/api/products', {...data, id});
@@ -59,6 +66,30 @@ export default function ProductForm({id, ...props}) {
 		});
 	}, []);
 
+	const propertiesToFill = [];
+	if (categoriesList.length > 0 && category) {
+		let selectedCategoryInfo = categoriesList.find(
+			({_id}) => _id === category,
+		);
+		propertiesToFill.push(...selectedCategoryInfo.properties);
+		while (selectedCategoryInfo?.parent?._id) {
+			// eslint-disable-next-line prefer-const
+			let selectedParentCategory = categoriesList.find(
+				({_id}) => _id === selectedCategoryInfo?.parent?._id,
+			);
+			propertiesToFill.push(...selectedParentCategory.properties);
+			selectedCategoryInfo = selectedParentCategory;
+		}
+	}
+
+	const setProductProps = (propName, value) => {
+		setProductProperties(prev => {
+			const newProductProps = {...prev};
+			newProductProps[propName] = value;
+			return newProductProps;
+		});
+	};
+
 	return (
 		<form onSubmit={createProduct}>
 			<label>Product name</label>
@@ -73,13 +104,38 @@ export default function ProductForm({id, ...props}) {
 				<option value=''>Uncategorized</option>
 				{categoriesList.length > 0
 					? categoriesList.map(categoryItem => (
-						<option key={categoryItem._id}>{categoryItem.name}</option>
+						<option key={categoryItem._id} value={categoryItem._id}>
+							{categoryItem.name}
+						</option>
 					))
 					: null}
 			</select>
+			<div className='pt-2'>
+				{propertiesToFill.length > 0
+					? propertiesToFill.map(p => (
+						<div key={p.name} className='flex flex-row items-baseline gap-1'>
+							<div className='flex'>
+								<label>{p.name[0].toUpperCase() + p.name.substring(1)}</label>
+							</div>
+							<div className='flex'>
+								<select
+									value={productProperties[p.name]}
+									onChange={ev => setProductProps(p.name, ev.target.value)}
+								>
+									<option value=''>Property value</option>
+									{p.values.map(value => (
+										<option key={value} value={value}>
+											{value}
+										</option>
+									))}
+								</select>
+							</div>
+						</div>
+					))
+					: null}
+			</div>
 
 			<label>Images</label>
-
 			<div className='flex gap-1 flex-row flex-wrap'>
 				<label className='w-24 h-24 border flex items-center justify-center text-sm gap-1 rounded-md bg-blue-200 cursor-pointer'>
           Upload{' '}
