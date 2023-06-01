@@ -5,7 +5,8 @@ const productSchema = new Schema({
 	description: String,
 	price: {type: Number, required: true},
 	category: {type: mongoose.Types.ObjectId, ref: 'Category'},
-	image: {type: []},
+	image: [{type: String}],
+	properties: {type: Object},
 });
 
 productSchema.set('toJSON', {
