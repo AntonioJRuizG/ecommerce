@@ -23,8 +23,8 @@ export default function Layout({children}) {
 
 	return (
 		<div className='bg-bggray min-h-screen'>
-			<div className='flex flex-row gap-2 md:hidden p-3'>
-				<button onClick={() => setShowNav(!showNav)}>
+			<div className='flex flex-row gap-2 p-2'>
+				<button className='md:hidden' onClick={() => setShowNav(!showNav)}>
 					<svg
 						xmlns='http://www.w3.org/2000/svg'
 						fill='none'
@@ -40,15 +40,13 @@ export default function Layout({children}) {
 						/>
 					</svg>
 				</button>
-				<div className='flex justify-center w-full mx-3'>
+				<div className='flex justify-center md:justify-start w-full mx-3'>
 					<Logo></Logo>
 				</div>
 			</div>
 			<div className='flex'>
 				<Nav show={showNav}></Nav>
-				<div className='flex-grow p-4'>
-					{children}
-				</div>
+				<div className='flex-grow p-4'>{children}</div>
 			</div>
 		</div>
 	);

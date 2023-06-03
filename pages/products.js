@@ -38,7 +38,10 @@ export default function Products() {
 								<tr key={product.id}>
 									<td>{product.title}</td>
 									<td className='flex flex-row flex-nowrap'>
-										<Link href={'/products/edit/' + product.id}>
+										<Link
+											className='link-default'
+											href={'/products/edit/' + product.id}
+										>
 											<svg
 												xmlns='http://www.w3.org/2000/svg'
 												viewBox='0 0 24 24'
@@ -50,7 +53,10 @@ export default function Products() {
 											</svg>{' '}
                         Edit
 										</Link>
-										<Link href={'/products/delete/' + product.id}>
+										<Link
+											className='link-red'
+											href={'/products/delete/' + product.id}
+										>
 											<svg
 												xmlns='http://www.w3.org/2000/svg'
 												viewBox='0 0 24 24'

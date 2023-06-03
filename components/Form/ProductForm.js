@@ -136,8 +136,8 @@ export default function ProductForm({id, ...props}) {
 			</div>
 
 			<label>Images</label>
-			<div className='flex gap-1 flex-row flex-wrap'>
-				<label className='w-24 h-24 border flex items-center justify-center text-sm gap-1 rounded-md bg-blue-200 cursor-pointer'>
+			<div className='flex gap-1 flex-row flex-wrap mb-3'>
+				<label className='text-primary w-24 h-24 border flex items-center justify-center text-sm gap-1 rounded-sm bg-white border-primary shadow-sm cursor-pointer'>
           Upload{' '}
 					<svg
 						xmlns='http://www.w3.org/2000/svg'
@@ -154,10 +154,9 @@ export default function ProductForm({id, ...props}) {
 						/>
 					</svg>
 					<input type='file' className='hidden'></input>
-					{/* onChange={uploadImage} */}
 				</label>
 				{isUploading ? (
-					<label className='w-24 h-24 border flex items-center justify-center text-sm gap-1 rounded-md bg-blue-200'>
+					<label className='w-24 h-24 border flex items-center justify-center text-sm gap-1 rounded-sm bg-gray-200'>
 						<div className='activityIndicator'></div>
 					</label>
 				) : null}
@@ -171,7 +170,7 @@ export default function ProductForm({id, ...props}) {
 						? image.map(item => (
 							<SortableItem key={item}>
 								<img
-									className='w-24 min h-24 min-w-24 object-cover min-h-24 border rounded-md bg-blue-200'
+									className='w-24 min h-24 min-w-24 object-cover min-h-24 border rounded-sm bg-white cursor-grab active:cursor-grabbing'
 									src={item}
 									alt={'product image'}
 									width={60}
