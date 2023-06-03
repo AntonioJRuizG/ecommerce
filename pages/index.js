@@ -6,8 +6,8 @@ import React from 'react';
 export default function Home() {
 	const {data: session} = useSession();
 	return (
-		<Layout className='text-blue-900 flex'>
-			<div className='text-blue-900 flex justify-between'>
+		<Layout className='text-gray-200 flex'>
+			<div className='text-gray-200 flex justify-between'>
 				<h2>Hello, {session?.user?.name}</h2>
 				<div className='flex bg-gray-300 gap-1 text-black rounded-lg overflow-hidden'>
 					<Image
