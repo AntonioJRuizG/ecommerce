@@ -16,10 +16,7 @@ export default function Products() {
 
 	return (
 		<Layout>
-			<Link
-				className='bg-blue-900 py-1 px-2 rounded-md text-white'
-				href={'/products/new'}
-			>
+			<Link className='btn-primary' href={'/products/new'}>
         Add new product
 			</Link>
 			{isLoading ? (
@@ -28,7 +25,7 @@ export default function Products() {
 					<p>Loading list of products...</p>
 				</div>
 			) : (
-				<table className='basic mt-4'>
+				<table className='basic table-auto mt-4'>
 					<thead>
 						<tr>
 							<td>Product name</td>
@@ -40,8 +37,11 @@ export default function Products() {
 							? products.map(product => (
 								<tr key={product.id}>
 									<td>{product.title}</td>
-									<td>
-										<Link href={'/products/edit/' + product.id}>
+									<td className='flex flex-row flex-nowrap'>
+										<Link
+											className='link-default'
+											href={'/products/edit/' + product.id}
+										>
 											<svg
 												xmlns='http://www.w3.org/2000/svg'
 												viewBox='0 0 24 24'
@@ -53,7 +53,10 @@ export default function Products() {
 											</svg>{' '}
                         Edit
 										</Link>
-										<Link href={'/products/delete/' + product.id}>
+										<Link
+											className='link-red'
+											href={'/products/delete/' + product.id}
+										>
 											<svg
 												xmlns='http://www.w3.org/2000/svg'
 												viewBox='0 0 24 24'

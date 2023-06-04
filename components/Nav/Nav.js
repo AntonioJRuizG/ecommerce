@@ -1,30 +1,15 @@
+import {signOut} from 'next-auth/react';
 import Link from 'next/link';
 import {useRouter} from 'next/router';
 import React from 'react';
 
-export default function Nav() {
+export default function Nav({show}) {
 	const inactiveLink = 'flex gap-2 p-1';
-	const activeLink = inactiveLink + ' bg-white text-blue-900 rounded-l-lg';
+	const activeLink = inactiveLink + ' bg-highlight text-primary rounded-sm';
 	const router = useRouter();
 
 	return (
-		<aside className='text-white p-4 pr-0 flex flex-col gap-5'>
-			<Link href={'/'} className='flex gap-2 mr-2'>
-				<svg
-					xmlns='http://www.w3.org/2000/svg'
-					viewBox='0 0 24 24'
-					fill='currentColor'
-					className='w-6 h-6'
-				>
-					<path
-						fillRule='evenodd'
-						d='M7.5 6v.75H5.513c-.96 0-1.764.724-1.865 1.679l-1.263 12A1.875 1.875 0 004.25 22.5h15.5a1.875 1.875 0 001.865-2.071l-1.263-12a1.875 1.875 0 00-1.865-1.679H16.5V6a4.5 4.5 0 10-9 0zM12 3a3 3 0 00-3 3v.75h6V6a3 3 0 00-3-3zm-3 8.25a3 3 0 106 0v-.75a.75.75 0 011.5 0v.75a4.5 4.5 0 11-9 0v-.75a.75.75 0 011.5 0v.75z'
-						clipRule='evenodd'
-					/>
-				</svg>
-				<span>EcommerceAdmin</span>
-			</Link>
-
+		<aside className={(show ? 'left-0' : '-left-full') + ' text-gray-700 p-4 gap-5 fixed w-full h-full bg-bggray md:static md:w-auto transition-all z-40'}>
 			<nav className='flex flex-col gap-2'>
 				<Link
 					href={'/'}
@@ -126,6 +111,23 @@ export default function Nav() {
 					</svg>
           Settings
 				</Link>
+				<button className={inactiveLink} onClick={() => signOut()}>
+					<svg
+						xmlns='http://www.w3.org/2000/svg'
+						fill='none'
+						viewBox='0 0 24 24'
+						strokeWidth={1.5}
+						stroke='currentColor'
+						className='w-6 h-6'
+					>
+						<path
+							strokeLinecap='round'
+							strokeLinejoin='round'
+							d='M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75'
+						/>
+					</svg>
+          Logout
+				</button>
 			</nav>
 		</aside>
 	);

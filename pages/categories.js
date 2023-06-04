@@ -156,7 +156,7 @@ export default function Categories() {
 				<div className='mb-2'>
 					<label className='block'>Properties</label>
 					<button
-						className='btn-default text-sm my-2'
+						className='btn-primary my-2'
 						type='button'
 						onClick={addProperty}
 					>
@@ -198,7 +198,7 @@ export default function Categories() {
 									></input>
 								</div>
 								<button
-									className='btn-default text-sm h-7'
+									className='btn-red text-sm h-7'
 									type='button'
 									onClick={() => removeProperty(index)}
 								>
@@ -247,7 +247,7 @@ export default function Categories() {
 									<td>
 										<div className='flex flex-row gap-1'>
 											<button
-												className='btn-primary'
+												className='btn-secondary w-20'
 												onClick={() => {
 													editCategory(category);
 												}}

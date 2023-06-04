@@ -1,3 +1,5 @@
+/* prettier-ignore */
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -5,55 +7,87 @@
 input,
 textarea,
 select {
-  @apply !outline-none border border-gray-300 rounded-md p-1 w-full;
+  @apply !outline-none border border-gray-200 p-1 w-full rounded-sm;
   @apply mb-2
 }
 
 input:focus,
 textarea:focus,
 select:focus {
-  @apply border-blue-900
+  @apply border-primary rounded-sm
 }
 
 label {
-  @apply text-blue-900
+  @apply text-gray-800
 }
 
 .btn-default {
-  @apply bg-gray-500 text-white px-4 py-1 rounded-md
+  @apply bg-gray-500 text-white px-4 py-1 rounded-sm
+}
+
+.btn-default:hover {
+  @apply shadow-md shadow-gray-400
 }
 
 .btn-primary {
-  @apply bg-blue-900 text-white px-4 py-1 rounded-md
+  @apply bg-primary text-white px-4 py-1 rounded-sm
+}
+
+.btn-primary:hover {
+  @apply shadow-md shadow-violet-400
+}
+
+.btn-secondary {
+  @apply bg-gray-600 text-white px-2 py-1 rounded-sm flex justify-center mx-1 items-center gap-1
+}
+
+.btn-secondary:hover {
+  @apply shadow-md shadow-gray-400
 }
 
 .btn-red {
-  @apply bg-red-700 text-white px-4 py-1 rounded-md
+  @apply bg-red-200 text-red-900 px-4 py-1 rounded-sm
+}
+
+.btn-red:hover {
+  @apply shadow-md shadow-red-300
 }
 
 table.basic {
-  @apply w-full
+  @apply table-auto w-full bg-white rounded-sm shadow-md
 }
 
 table.basic thead tr td {
-  @apply bg-blue-100
+  @apply text-gray-700 uppercase border-b border-gray-300 px-4 py-2
 }
 
 table.basic tr td {
-  @apply border border-blue-200 p-1
+  @apply px-4 py-1
 }
 
-table.basic a {
-  @apply bg-blue-900 text-white text-sm px-2 py-1 rounded-md inline-flex gap-1 w-20 justify-center mx-1
+.link-default {
+  @apply bg-gray-700 text-white text-sm px-2 py-1 rounded-sm flex justify-center items-center gap-2 w-20 mx-1
+}
+
+.link-red {
+  @apply bg-red-200 text-red-900 text-sm px-2 py-1 rounded-sm flex justify-center items-center gap-1 w-20 mx-1
+}
+
+.link-red:hover {
+  @apply shadow-md shadow-red-300
+}
+
+table.basic a:hover {
+  @apply shadow-md shadow-gray-400
 }
 
 h1 {
-  @apply text-blue-900 mb-2 text-xl
+  @apply text-primary mb-2 text-xl
 }
 
 .activityIndicator {
   border: 5px solid #f3f3f3;
-  border-top: 5px solid #1700e4;
+  border-top: 5px solid #5542F6;
   border-radius: 50%;
   width: 30px;
   height: 30px;

@@ -21,7 +21,7 @@ export default function EditProduct() {
 
 	return (
 		<Layout>
-			<h1 className='text-blue-900 mb-2 text-xl'>Edit Product</h1>
+			<h1 className='text-primary mb-2 text-xl'>Edit Product</h1>
 			{product ? (<ProductForm {...product}></ProductForm>) : null}
 		</Layout>
 	);
