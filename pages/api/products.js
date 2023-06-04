@@ -24,9 +24,9 @@ export default async function handler(req, res) {
 	}
 
 	if (method === 'PUT') {
-		const {id, ...props} = req.body;
+		const {id, category, ...props} = req.body;
 		const productDoc = await Product.findByIdAndUpdate({_id: id},
-			{...props},
+			{category: category || null, ...props},
 		);
 		res.json(productDoc);
 	}
