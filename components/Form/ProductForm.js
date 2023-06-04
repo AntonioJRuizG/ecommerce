@@ -1,10 +1,8 @@
-/* eslint-disable no-unused-vars */
 /* eslint-disable @next/next/no-img-element */
 
-import {useState} from 'react';
 import axios from 'axios';
 import {useRouter} from 'next/router';
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {uploadImageToFirebase} from '../../pages/api/firebase/firebaseConfig';
 
 import SortableList, {SortableItem} from 'react-easy-sort';
@@ -15,17 +13,17 @@ export default function ProductForm({id, ...props}) {
 	const [title, setTitle] = useState(props.title || '');
 	const [description, setDescription] = useState(props.description || '');
 	const [price, setPrice] = useState(props.price || '');
-	const [image, setImage] = useState(props.image || []);
+	const [images, setImages] = useState(props.images || []);
 	const [goBack, setGoBack] = useState(false);
 	const [isUploading, setIsUploagin] = useState(false);
 	const [categoriesList, setCategoriesList] = useState([]);
-	const [category, setCategory] = useState(props.category || '');
+	const [category, setCategory] = useState(props.category || undefined);
 	const [productProperties, setProductProperties] = useState(
 		props.properties || {},
 	);
 
 	const onSortEnd = (oldIndex, newIndex) => {
-		setImage(array => arrayMove(array, oldIndex, newIndex));
+		setImages(array => arrayMove(array, oldIndex, newIndex));
 	};
 
 	const createProduct = async ev => {
@@ -36,7 +34,7 @@ export default function ProductForm({id, ...props}) {
 			title,
 			description,
 			price,
-			image,
+			images,
 			category,
 			properties: productProperties,
 		};
@@ -53,7 +51,7 @@ export default function ProductForm({id, ...props}) {
 		}
 
 		setIsUploagin(false);
-		// SetGoBack(true);
+		setGoBack(true);
 	};
 
 	if (goBack) {
@@ -71,14 +69,16 @@ export default function ProductForm({id, ...props}) {
 		let selectedCategoryInfo = categoriesList.find(
 			({_id}) => _id === category,
 		);
-		propertiesToFill.push(...selectedCategoryInfo.properties);
-		while (selectedCategoryInfo?.parent?._id) {
+		if (selectedCategoryInfo) {
+			propertiesToFill.push(...selectedCategoryInfo.properties);
+			while (selectedCategoryInfo?.parent?._id) {
 			// eslint-disable-next-line prefer-const
-			let selectedParentCategory = categoriesList.find(
-				({_id}) => _id === selectedCategoryInfo?.parent?._id,
-			);
-			propertiesToFill.push(...selectedParentCategory.properties);
-			selectedCategoryInfo = selectedParentCategory;
+				let selectedParentCategory = categoriesList.find(
+					({_id}) => _id === selectedCategoryInfo?.parent?._id,
+				);
+				propertiesToFill.push(...selectedParentCategory.properties);
+				selectedCategoryInfo = selectedParentCategory;
+			}
 		}
 	}
 
@@ -88,6 +88,11 @@ export default function ProductForm({id, ...props}) {
 			newProductProps[propName] = value;
 			return newProductProps;
 		});
+	};
+
+	const removeImage = image => {
+		const updatedImages = images.filter(item => item !== image);
+		setImages(updatedImages);
 	};
 
 	return (
@@ -166,17 +171,40 @@ export default function ProductForm({id, ...props}) {
 					className='list flex gap-1 flex-row flex-wrap'
 					draggedItemClassName='dragged'
 				>
-					{image?.length > 0
-						? image.map(item => (
-							<SortableItem key={item}>
-								<img
-									className='w-24 min h-24 min-w-24 object-cover min-h-24 border rounded-sm bg-white cursor-grab active:cursor-grabbing'
-									src={item}
-									alt={'product image'}
-									width={60}
-									height={60}
-								></img>
-							</SortableItem>
+					{images?.length > 0
+						? images.map(image => (
+							<div key={image}>
+								<div className='p-0 m-0 block relative'>
+									<button
+										className='block absolute cursor-pointer right-0'
+										onClick={() => removeImage(image)}
+									>
+										<svg
+											xmlns='http://www.w3.org/2000/svg'
+											fill='none'
+											viewBox='0 0 24 24'
+											strokeWidth={1.5}
+											stroke='currentColor'
+											className='w-6 h-6'
+										>
+											<path
+												strokeLinecap='round'
+												strokeLinejoin='round'
+												d='M6 18L18 6M6 6l12 12'
+											/>
+										</svg>
+									</button>
+								</div>
+								<SortableItem>
+									<img
+										className='w-24 min h-24 min-w-24 object-cover min-h-24 border rounded-sm bg-white cursor-grab active:cursor-grabbing'
+										src={image}
+										alt={'product image'}
+										width={60}
+										height={60}
+									></img>
+								</SortableItem>
+							</div>
 						))
 						: null}
 				</SortableList>
