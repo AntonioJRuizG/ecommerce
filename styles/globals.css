@@ -77,8 +77,6 @@ table.basic tr td {
   @apply shadow-md shadow-red-300
 }
 
-
-
 table.basic a:hover {
   @apply shadow-md shadow-gray-400
 }
@@ -89,7 +87,7 @@ h1 {
 
 .activityIndicator {
   border: 5px solid #f3f3f3;
-  border-top: 5px solid #1700e4;
+  border-top: 5px solid #5542F6;
   border-radius: 50%;
   width: 30px;
   height: 30px;
