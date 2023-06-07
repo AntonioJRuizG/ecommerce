@@ -11,6 +11,9 @@ export default function Categories() {
 	const [deletedCategory, setDeletedCategory] = useState(null);
 	const [properties, setProperties] = useState([]);
 	const [invalidOption, setInvalidOption] = useState(false);
+	const [invalidOptionMsg, setInvalidOptionMsg] = useState('');
+
+	const invaliOptionList = {0: '', 1: 'Category and parent category cannot be the same.', 2: 'Category already exists. Change the name or choose edit option.', 3: 'An existing parent category has the same name of the edited category.'};
 
 	const saveCategory = async ev => {
 		ev.preventDefault();
@@ -21,19 +24,26 @@ export default function Categories() {
 
 		const categoryExists = categoriesList.some(object => object.name === name);
 
-		if (categoryExists) {
+		if (name === parentInCategoryList?.name) {
 			setInvalidOption(true);
+			setInvalidOptionMsg(invaliOptionList[1]);
 			return;
 		}
 
-		if (name === parentInCategoryList?.name) {
-			setInvalidOption(true);
-			return;
+		if (!editedCategory) {
+			if (categoryExists) {
+				setInvalidOption(true);
+				setInvalidOptionMsg(invaliOptionList[2]);
+				return;
+			}
+
+			await axios.post('/api/categories', data);
 		}
 
 		if (editedCategory) {
 			if (editedCategory._id === parentCategory) {
 				setInvalidOption(true);
+				setInvalidOptionMsg(invaliOptionList[2]);
 				return;
 			}
 
@@ -41,6 +51,7 @@ export default function Categories() {
       === editedCategory.name
 			) {
 				setInvalidOption(true);
+				setInvalidOptionMsg(invaliOptionList[3]);
 				return;
 			}
 
@@ -49,15 +60,12 @@ export default function Categories() {
 			setEditedCategory(null);
 		}
 
-		if (!editedCategory) {
-			await axios.post('/api/categories', data);
-		}
-
 		setName('');
 		setParentCategory('');
 		setProperties([]);
 		fetchCategories();
-		setInvalidOption(false);
+		setInvalidOption(true);
+		setInvalidOptionMsg(invaliOptionList[0]);
 	};
 
 	useEffect(() => {
@@ -148,10 +156,7 @@ export default function Categories() {
 					</select>
 				</div>
 				{invalidOption ? (
-					<div className='text-red-500 text-sm'>
-            Category cannot be self parent category or child-parent relation
-            already exists. Change parent category.
-					</div>
+					<div className='text-red-500 text-sm'>{invalidOptionMsg}</div>
 				) : null}
 				<div className='mb-2'>
 					<label className='block'>Properties</label>
