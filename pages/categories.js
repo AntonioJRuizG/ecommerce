@@ -130,7 +130,7 @@ export default function Categories() {
 			</label>
 
 			<form onSubmit={saveCategory}>
-				<div className='flex gap-1'>
+				<div className='flex gap-1 mb-1'>
 					<input
 						className='mb-0'
 						type='text'
@@ -161,7 +161,7 @@ export default function Categories() {
 				<div className='mb-2'>
 					<label className='block'>Properties</label>
 					<button
-						className='btn-primary my-2'
+						className='btn-default my-2'
 						type='button'
 						onClick={addProperty}
 					>
@@ -172,7 +172,7 @@ export default function Categories() {
 							<div className='flex gap-1 items-center' key={index}>
 								<div className='flex'>
 									<input
-										className='h-7 text-sm mb-0'
+										className='h-7 text-sm mb-1'
 										type='text'
 										placeholder='property name (example: color'
 										value={property.name}
