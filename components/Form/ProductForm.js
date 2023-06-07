@@ -33,7 +33,6 @@ export default function ProductForm({id, ...props}) {
 	const createProduct = async ev => {
 		ev.preventDefault();
 		const file = fileInputRef.current.files[0];
-		console.log(file);
 		const data = {
 			title,
 			description,
@@ -103,6 +102,10 @@ export default function ProductForm({id, ...props}) {
 	const removeImage = image => {
 		const updatedImages = images.filter(item => item !== image);
 		setImages(updatedImages);
+	};
+
+	const cancelFormHandle = () => {
+		setGoBack(true);
 	};
 
 	return (
@@ -182,12 +185,6 @@ export default function ProductForm({id, ...props}) {
 						</svg>
 						<input type='file' className='hidden' ref={fileInputRef}></input>
 					</label>
-					{isUploading ? (
-						<label className='w-24 h-24 border flex items-center justify-center text-sm gap-1 rounded-sm bg-gray-200'>
-							<div className='activityIndicator'></div>
-						</label>
-					) : null}
-
 					<SortableList
 						onSortEnd={onSortEnd}
 						className='list flex gap-1 flex-row flex-wrap'
@@ -230,6 +227,11 @@ export default function ProductForm({id, ...props}) {
 							))
 							: null}
 					</SortableList>
+					{isUploading ? (
+						<label className='w-24 h-24 border flex items-center justify-center text-sm gap-1 rounded-sm bg-gray-200'>
+							<div className='activityIndicator'></div>
+						</label>
+					) : null}
 				</div>
 				<label>Description</label>
 				<textarea
@@ -249,7 +251,15 @@ export default function ProductForm({id, ...props}) {
 				<button type='submit' className='btn-primary'>
           Save
 				</button>
+				<button
+					type='button'
+					className='btn-default ml-2'
+					onClick={() => cancelFormHandle()}
+				>
+          Cancel
+				</button>
 			</form>
+
 			{showModal ? (
 				<div className='flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none backdrop-blur-sm'>
 					<div className='relative w-auto my-6 mx-auto max-w-3xl border-0 rounded-sm shadow-lg flex flex-col bg-white outline-none focus:outline-none'>
@@ -272,10 +282,7 @@ export default function ProductForm({id, ...props}) {
 								type='button'
 								onClick={() => setGoBack(true)}
 							>
-								{fetchSuccess
-									? 'Back to products.'
-									: 'Try again later.'}
-
+								{fetchSuccess ? 'Back to products.' : 'Try again later.'}
 							</button>
 						</div>
 					</div>
