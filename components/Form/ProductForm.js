@@ -113,6 +113,7 @@ export default function ProductForm({id, ...props}) {
 					placeholder='product name'
 					value={title}
 					onChange={ev => setTitle(ev.target.value)}
+					required
 				></input>
 				<label>Category</label>
 				<select
@@ -242,6 +243,7 @@ export default function ProductForm({id, ...props}) {
 					placeholder='price'
 					value={price}
 					onChange={ev => setPrice(ev.target.value)}
+					required
 				></input>
 				<button type='submit' className='btn-primary'>
           Save
