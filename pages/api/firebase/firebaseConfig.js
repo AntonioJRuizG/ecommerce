@@ -13,5 +13,5 @@ export const uploadImageToFirebase = async (data, file) => {
 	await uploadBytes(storageRef, file);
 
 	const imgUrl = await getDownloadURL(storageRef);
-	data.image.push(imgUrl);
+	data.images.push(imgUrl);
 };
