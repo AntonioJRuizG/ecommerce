@@ -40,7 +40,7 @@ export default function Layout({children}) {
 						/>
 					</svg>
 				</button>
-				<div className='flex justify-center md:justify-start w-full mx-3'>
+				<div className='text-center m-auto'>
 					<Logo></Logo>
 				</div>
 			</div>
