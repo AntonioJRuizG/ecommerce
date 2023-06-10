@@ -4,6 +4,11 @@
 @tailwind components;
 @tailwind utilities;
 
+body,
+html {
+  overflow-x: hidden;
+}
+
 input,
 textarea,
 select {
